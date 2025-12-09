@@ -1,73 +1,231 @@
-# React + TypeScript + Vite
+# E-Commerce Admin Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+_A modern, scalable, production-quality admin dashboard built with React, TypeScript, and a feature-based architecture._
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Overview
 
-## React Compiler
+This project is a full-featured **E-Commerce Admin Dashboard**, including:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Scalable architecture
+- Strong TypeScript discipline
+- Feature-driven folder structure
+- React Query for server-state management
+- Authentication + Role-based access
+- CRUD operations for products, customers, and orders
+- Playwright E2E testing
+- Modern UI using TailwindCSS
+- Realistic API mocking with MSW
+- CI/CD workflows and documentation
 
-## Expanding the ESLint configuration
+It is built with patterns and practices used in real production environments.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Live Demo
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+**Demo:** _Coming soon_
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Login Credentials
+
+**Admin**
+
+- Email: `admin@example.com`
+- Password: `admin123`
+
+**Staff**
+
+- Email: `staff@example.com`
+- Password: `staff123`
+
+---
+
+## Tech Stack
+
+- **React 19 (TypeScript)**
+- **Vite** (bundler)
+- **React Router** (routing)
+- **React Query (TanStack)** (API caching & async state)
+- **Context API** (auth, theme, global config)
+- **TailwindCSS** (styling)
+- **Zod** (schema validation)
+- **MSW** (mock API for local dev and testing)
+- **Jest + React Testing Library** (unit & integration tests)
+- **Playwright** (end-to-end tests)
+- **GitHub Actions** (CI/CD)
+
+---
+
+## Project Structure
+
+```txt
+src/
+ ├─ app/
+ │   ├─ providers/
+ │   ├─ routes/
+ │   ├─ hooks/
+ │   └─ layout/
+ │
+ ├─ features/
+ │   ├─ auth/
+ │   ├─ products/
+ │   ├─ customers/
+ │   ├─ orders/
+ │   └─ dashboard/
+ │
+ ├─ components/        # Reusable UI components
+ ├─ lib/               # Utilities, API clients, helpers
+ ├─ tests/             # Global test utils
+ └─ main.tsx
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Key Features
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Authentication
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- Login/logout
+- JWT-based session (mocked with MSW)
+- Role-based access control (Admin vs Staff)
+- Protected routes
+
+### Products
+
+- Products list with pagination, sorting, filtering
+- Create / Edit / Delete product
+- Image upload
+- Optimistic UI updates
+- Zod-powered form validation
+
+### Customers
+
+- Customer list with search
+- Customer detail view (profile, order history)
+
+### Orders
+
+- Orders list with status filters
+- Update order status (optimistic updates + rollback on error)
+
+### Dashboard
+
+- Revenue charts
+- KPIs
+- Top-selling products
+- Customer growth analytics
+
+### UI/UX
+
+- TailwindCSS styling
+- Responsive design
+- Dark mode
+- Skeleton loaders
+- Error boundaries
+
+## Testing
+
+**Unit & Integration (Jest + RTL)**
+
+- Tests for hooks
+- Tests for services
+- Tests for validation schemas
+- Component tests
+
+**E2E (Playwright)**
+
+- Login flow
+- Product CRUD
+- Customer search
+- Order status updates
+
+**Mocking**
+
+All API traffic is handled with MSW, enabling consistent test environments and repeatable scenarios.
+
+## Architecture Decisions
+
+### React Query for Server State
+
+Selected because it:
+
+- Handles caching, revalidation, retries, and stale state
+- Reduces global state management needs
+- Aligns with modern React application patterns
+
+### Context API for Client State
+
+Used for:
+
+- Authentication
+- Theme management
+- App-wide config
+
+### Feature-Based File Structure
+
+Promotes:
+
+- Encapsulation
+- Maintainability
+- Scalability
+
+### Zod for Validation
+
+Ensures:
+
+- Runtime safety
+- Type inference
+- Clean, maintainable schemas
+
+## Local Development
+
+1. Install dependencies
+   `npm install`
+
+2. Start development server
+   `npm run dev`
+
+3. Run tests
+   `npm test`
+
+4. Run Playwright E2E tests
+   `npx playwright test`
+
+5. Build for production
+   `npm run build`
+
+## CI/CD
+
+GitHub Actions pipeline includes:
+
+- Linting
+- Type checking
+- Unit tests
+- E2E tests
+- Build step verification
+
+All PRs must pass before merging.
+
+## Roadmap
+
+- Order shipping labels
+- Product categories management
+- User management module
+- Stripe webhook simulation
+- Multi-language support
+- Realtime updates via WebSockets
+
+## Screenshots
+
+Add screenshots or GIFs after deployment.
+(Use Vercel/Netlify preview images)
+
+## License
+
+MIT — free to use, modify, and distribute.
+
+## Credits
+
+Built by Nicholas Smith — Frontend Developer.
+Designed to showcase scalable frontend engineering, architecture, and testing expertise.
+
+---
