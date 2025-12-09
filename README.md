@@ -80,6 +80,33 @@ src/
  └─ main.tsx
 ```
 
+## Routes
+
+Your app will have three categories of routes:
+
+### Public Routes
+
+- /login
+- /forgot-password
+  (Anything that doesn't require being logged in)
+
+### Protected Authenticated Routes
+
+Accessible only when the user is logged in:
+
+- /dashboard
+- /products
+- /products/:id
+- /customers
+- /orders
+
+### Role-Based Admin Routes
+
+Accessible only to Admin users:
+
+- /admin/users
+- /admin/settings
+
 ## Key Features
 
 ### Authentication
