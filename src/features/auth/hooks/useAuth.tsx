@@ -30,7 +30,8 @@ export const AuthProvider = ({ children }) => {
 		setLoading(false);
 	}, []);
 
-	const login = useCallback(async (email, password) => {
+	// Making this function async to mirror what a real login function (that sends a network request to a backend) would look like
+	const login = async (email, password) => {
 		console.log('Logging in');
 		const mockUser = {
 			id: 1,
@@ -40,12 +41,14 @@ export const AuthProvider = ({ children }) => {
 		};
 		setUser(mockUser);
 		localStorage.setItem('authUser', JSON.stringify(mockUser));
-	}, []);
 
-	const logout = useCallback(() => {
+		return mockUser;
+	};
+
+	const logout = () => {
 		setUser(null);
 		localStorage.removeItem('authUser');
-	}, []);
+	};
 
 	return (
 		<AuthContext.Provider value={{ user, login, logout, loading }}>

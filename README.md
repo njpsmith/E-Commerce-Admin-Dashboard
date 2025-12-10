@@ -109,6 +109,17 @@ Accessible only to Admin users:
 
 ## Key Features
 
+### Login page
+
+For the login page I am using:
+
+- **react-hook-form** for form state
+- **Zod** for schema validation (/src/features/auth/schemas/loginSchema.ts)
+
+@hookform/resolvers/zod to integrate the two
+
+Your existing useAuth() hook for login
+
 ### Authentication
 
 - Login/logout
@@ -189,7 +200,11 @@ Used for:
 
 ### Feature-Based File Structure
 
-Promotes:
+Rather than grouping files by type (i.e. all the pages together, all the hooks together, etc.), files are grouped by feature.
+
+For example, the /src/features/auth/ folder contains the page, hooks and schemas for Login.
+
+This makes it easier to think of each feature individually and promotes:
 
 - Encapsulation
 - Maintainability
