@@ -70,6 +70,7 @@ export const LoginPage = () => {
 
 					<div className="text-center">
 						<button
+							role="button"
 							type="submit"
 							disabled={isSubmitting}
 							className="p-2 text-white bg-blue-600 hover:bg-blue-700 rounded border transition disabled:opacity-50"
