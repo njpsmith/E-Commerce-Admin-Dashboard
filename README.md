@@ -116,16 +116,49 @@ For the login page I am using:
 - **react-hook-form** for form state
 - **Zod** for schema validation (/src/features/auth/schemas/loginSchema.ts)
 
-@hookform/resolvers/zod to integrate the two
+**@hookform/resolvers/zod** to integrate the two
 
-Your existing useAuth() hook for login
+The useAuth() hook for login/logout functions.
+
+I have created a mock login with Mock Service Worker (MSW), returning a fake JSON Web Token (JWT) and user role. This is done with /mocks/browser.ts and /mocks/handlers.ts
 
 ### Authentication
 
 - Login/logout
 - JWT-based session (mocked with MSW)
-- Role-based access control (Admin vs Staff)
+- Role-based access control (RBAC) (Admin vs Staff)
 - Protected routes
+
+#### What RBAC controls:
+
+1. Route access
+
+Only logged in users have access should have have access to the internal pages (/dashboard, /customers, etc.)
+
+We use the <ProtectedRoute> component for this. If the user tries to access these pages before logging in they are redirected to /login
+
+Only admins should access:
+
+- /settings/users
+- /products/create
+
+We use the <AdminRoute> component for this.
+
+Managers might access:
+
+- /orders/:id/refund
+
+Support might access:
+
+- /customers/:id/notes
+
+ReadOnly users should not be able to modify anything.
+
+2. UI visibility
+
+- Menu items hidden
+- "Edit" / "Delete" actions disabled or removed
+- Fields hidden or disabled for certain roles
 
 ### Products
 

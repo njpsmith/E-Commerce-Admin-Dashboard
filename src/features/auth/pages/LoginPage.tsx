@@ -78,6 +78,16 @@ export const LoginPage = () => {
 						</button>
 					</div>
 				</form>
+
+				<div className="text-right">
+					<br />
+					<br />
+					<small>
+						<p>Test credentials:</p>
+						<p>Email: admin@example.com</p>
+						<p>Password: password123</p>
+					</small>
+				</div>
 			</div>
 		</div>
 	);
