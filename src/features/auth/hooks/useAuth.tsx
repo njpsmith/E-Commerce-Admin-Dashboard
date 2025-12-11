@@ -1,16 +1,27 @@
 import {
 	useState,
-	useCallback,
 	useEffect,
 	createContext,
 	useContext,
+	ReactNode,
 } from 'react';
 
-const AuthContext = createContext(null);
+interface AuthContextType {
+	user: any;
+	token: string | null;
+	loading: boolean;
+	login: (email: string, password: string) => Promise<void>;
+	logout: () => void;
+}
 
-export const AuthProvider = ({ children }) => {
-	const [user, setUser] = useState(null);
-	const [loading, setLoading] = useState(true);
+const AuthContext = createContext<AuthContextType | null>(null);
+
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+	const [user, setUser] = useState<any>(null);
+	const [loading, setLoading] = useState<string | null>(true);
+
+	// For storing the JWT in memory
+	const [token, setToken] = useState<string | null>(null);
 
 	useEffect(() => {
 		// if (import.meta.env.DEV) {
@@ -25,8 +36,8 @@ export const AuthProvider = ({ children }) => {
 		// 	setLoading(false);
 		// 	return;
 		// }
-		const stored = localStorage.getItem('authUser');
-		if (stored) setUser(JSON.parse(stored));
+		const storedUser = localStorage.getItem('authUser');
+		if (storedUser) setUser(JSON.parse(storedUser));
 		setLoading(false);
 	}, []);
 
@@ -49,8 +60,10 @@ export const AuthProvider = ({ children }) => {
 
 		// Save the user and token
 		setUser(data.user);
+		setToken(data.token);
+
+		// Persist user (not token)
 		localStorage.setItem('authUser', JSON.stringify(data.user));
-		localStorage.setItem('token', data.token);
 
 		return data.user;
 
@@ -68,11 +81,12 @@ export const AuthProvider = ({ children }) => {
 
 	const logout = () => {
 		setUser(null);
+		setToken(null);
 		localStorage.removeItem('authUser');
 	};
 
 	return (
-		<AuthContext.Provider value={{ user, login, logout, loading }}>
+		<AuthContext.Provider value={{ user, token, login, logout, loading }}>
 			{children}
 		</AuthContext.Provider>
 	);

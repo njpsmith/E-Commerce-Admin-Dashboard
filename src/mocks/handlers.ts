@@ -1,4 +1,6 @@
 import { http, HttpResponse } from 'msw';
+// import { fakeProducts } from './fakeProducts';
+const fakeProducts = {}; // Change this to an import when using actual data
 
 export const handlers = [
   // LOGIN ENDPOINT
@@ -25,5 +27,16 @@ export const handlers = [
       { message: 'Invalid credentials' },
       { status: 401 },
     );
+  }),
+
+  http.get('/api/products', ({ request }) => {
+    const authHeader = request.headers.get('Authorization');
+
+    // No token? Reject the request
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return HttpResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    }
+
+    return HttpResponse.json(fakeProducts);
   }),
 ];

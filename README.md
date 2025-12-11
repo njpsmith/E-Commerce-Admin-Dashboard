@@ -160,6 +160,29 @@ ReadOnly users should not be able to modify anything.
 - "Edit" / "Delete" actions disabled or removed
 - Fields hidden or disabled for certain roles
 
+#### Persistent auth state
+
+1. Store JWT in memory (best security)
+2. Restore user on page refresh
+3. Handle logout cleanly
+4. Attach JWT to future API requests
+
+We don't store the token in localStorage — that exposes you to XSS theft. Instead, we use in-memory tokens which disappear on tab close, making them safer.
+
+Storing the user in localStorage improves UI/UX, however. We can show the correct nav, avatar, name, etc., but the user doesn't have access to back-end data unless they have a token.
+
+**Flow:**
+
+1. User logs in -> Token + user set
+2. User visits /customers → works
+3. User closes tab
+4. User reopens /customers
+5. UI loads user from localStorage -> appears logged in
+6. API call goes out -> NO TOKEN
+7. Backend returns 401 Unauthorized
+8. App redirects to /login
+9. User logs in again -> new token created
+
 ### Products
 
 - Products list with pagination, sorting, filtering
@@ -197,6 +220,8 @@ ReadOnly users should not be able to modify anything.
 
 **Unit & Integration (Jest + RTL)**
 
+RTL is used for _isolated component behavior_, not full flows:
+
 - Tests for hooks
 - Tests for services
 - Tests for validation schemas
@@ -211,7 +236,7 @@ ReadOnly users should not be able to modify anything.
 
 **Mocking**
 
-All API traffic is handled with MSW, enabling consistent test environments and repeatable scenarios.
+All API traffic (mocked backend responses) are handled with MSW.
 
 ## Architecture Decisions
 
@@ -293,6 +318,41 @@ All PRs must pass before merging.
 
 Add screenshots or GIFs after deployment.
 (Use Vercel/Netlify preview images)
+
+## Future Improvements
+
+### Implement a real silent-refresh auth flow
+
+Currently we're using JWT tokens that are stored in memory. This means the user must log in again when tab closes. This is great for safety and common in SaaS admin tools.
+
+An improvement to this would be to do a silent refresh with refresh tokens, as a means to handle login persistence.
+
+**What “silent refresh” really means**
+
+When the user first logs in:
+
+1. The backend sends two things:
+
+- Access token (short-lived, e.g., 5–15 minutes)
+- Refresh token (long-lived, e.g., 30 days)
+
+2. The access token:
+   - Is stored in memory only (safe)
+   - Is used for API calls
+   - Expires quickly
+
+3. The refresh token:
+   - Is stored in a secure, httpOnly cookie (JavaScript cannot read it, so XSS can't steal it)
+   - Lives for a long time (days/weeks)
+   - Is used ONLY to get a new access token
+
+Here's the flow:
+
+1. Store a short-lived token in memory
+2. Store a long-lived refresh token in httpOnly cookie
+3. On refresh, silently call /refresh API
+4. Backend returns a new access token automatically
+5. User appears logged in even after tab close
 
 ## License
 
