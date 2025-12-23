@@ -28,23 +28,23 @@ export interface ProductFilters {
 	pageSize?: number;
 }
 
-export interface PaginatedResponse<T> {
-	items: T[];
-	total: number;
-	page: number;
-	pageSize: number;
-}
+// export interface PaginatedResponse<T> {
+// 	items: T[];
+// 	total: number;
+// 	page: number;
+// 	pageSize: number;
+// }
 
-export interface CreateProductPayload {
-	name: string;
-	sku: string;
-	price: number;
-	stock: number;
-	status: ProductStatus;
-	category?: string | null;
-	description?: string | null;
-}
+// export interface CreateProductPayload {
+// 	name: string;
+// 	sku: string;
+// 	price: number;
+// 	stock: number;
+// 	status: ProductStatus;
+// 	category?: string | null;
+// 	description?: string | null;
+// }
 
-export interface UpdateProductPayload extends Partial<CreateProductPayload> {
-	id: string;
-}
+// export interface UpdateProductPayload extends Partial<CreateProductPayload> {
+// 	id: string;
+// }
