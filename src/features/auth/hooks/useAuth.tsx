@@ -43,15 +43,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 	// Making this function async to mirror what a real login function (that sends a network request to a backend) would look like
 	const login = async (email: string, password: string) => {
-		console.log('Logging in');
-
 		const res = await fetch('/api/login', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ email, password }),
 		});
 
-		console.log('res', res);
 		if (!res.ok) {
 			throw new Error('Invalid credentials');
 		}

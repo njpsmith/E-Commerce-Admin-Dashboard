@@ -238,6 +238,8 @@ RTL is used for _isolated component behavior_, not full flows:
 
 All API traffic (mocked backend responses) are handled with MSW.
 
+Read more about the testing strategy in the /docs/testing-strategy.md file.
+
 ## Architecture Decisions
 
 ### React Query for Server State
