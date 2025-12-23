@@ -9,6 +9,8 @@ export const useApi = () => {
 			Authorization: token ? `Bearer ${token}` : '',
 		};
 
+		console.log('useAPI request headers', headers);
+
 		return fetch(url, { ...options, headers });
 	};
 

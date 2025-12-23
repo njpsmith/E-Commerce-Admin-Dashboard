@@ -4,14 +4,16 @@ import { ProtectedRoute } from './ProtectedRoute';
 import { AdminRoute } from './AdminRoute';
 import { RootLayout } from '../layout/RootLayout';
 
+import ProductsPage from '../../features/products/pages/ProductsPage';
+
 // Lazy-loaded pages
 const LoginPage = lazy(() => import('../../features/auth/pages/LoginPage'));
 const DashboardPage = lazy(
 	() => import('../../features/dashboard/pages/DashboardPage'),
 );
-const ProductsPage = lazy(
-	() => import('../../features/products/pages/ProductsPage'),
-);
+// const ProductsPage = lazy(
+// 	() => import('../../features/products/pages/ProductsPage'),
+// );
 const ProductDetailPage = lazy(
 	() => import('../../features/products/pages/ProductDetailPage'),
 );

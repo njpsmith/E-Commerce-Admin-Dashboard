@@ -1,6 +1,5 @@
 import { http, HttpResponse } from 'msw';
-// import { fakeProducts } from './fakeProducts';
-const fakeProducts = {}; // Change this to an import when using actual data
+import { fakeProducts } from './fixtures/fakeProducts';
 
 export const handlers = [
   // LOGIN ENDPOINT
@@ -33,10 +32,18 @@ export const handlers = [
     const authHeader = request.headers.get('Authorization');
 
     // No token? Reject the request
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return HttpResponse.json({ message: 'Unauthorized' }, { status: 401 });
-    }
+    // if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    //   return HttpResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    // }
 
     return HttpResponse.json(fakeProducts);
   }),
+
+  // http.get('/api/products', ({ request }) => {
+  //   const url = new URL(request.url);
+  //   const page = Number(url.searchParams.get('page') ?? '1');
+  //   const pageSize = Number(url.searchParams.get('pageSize') ?? '20');
+
+  //   return HttpResponse.json({ items: [...], total: 1, page, pageSize });
+  // })
 ];

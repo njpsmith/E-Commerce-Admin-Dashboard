@@ -309,12 +309,7 @@ All PRs must pass before merging.
 
 ## Roadmap
 
-- Order shipping labels
 - Product categories management
-- User management module
-- Stripe webhook simulation
-- Multi-language support
-- Realtime updates via WebSockets
 
 ## Screenshots
 
