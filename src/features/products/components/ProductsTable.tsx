@@ -133,7 +133,7 @@ export const ProductsTable = ({
 							<th className="px-4 py-3">Price</th>
 							<th className="px-4 py-3">Stock</th>
 							<th className="px-4 py-3">Status</th>
-							<th className="px-4 py-3">Created</th>
+							<th className="px-4 py-3">Updated</th>
 							<th className="px-4 py-3 text-right">Actions</th>
 						</tr>
 					</thead>
@@ -185,7 +185,7 @@ export const ProductsTable = ({
 										<StatusBadge status={p.status} />
 									</td>
 									<td className="px-4 py-3 text-gray-700">
-										{new Date(p.createdAt).toLocaleDateString('en-GB')}
+										{new Date(p.lastUpdated).toLocaleDateString('en-GB')}
 									</td>
 									{/*<td className="px-4 py-3 text-right">
 										<button

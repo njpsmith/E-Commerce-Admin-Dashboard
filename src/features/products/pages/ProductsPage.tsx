@@ -29,6 +29,12 @@ export const ProductsPage = () => {
 	- Component re-renders with data
 	*/
 	const { data, isLoading, isError, error } = useProductsList();
+	// const { data, isLoading, isError, error } = useProductsList({
+	// 	page: 1,
+	// 	pageSize: 20,
+	// 	search: 'shirt',
+	// 	status: 'active',
+	// });
 
 	// const handleFiltersChange = (next: ProductFiltersType) => {
 	// 	const parsed = productFiltersSchema.parse(next);
@@ -57,7 +63,7 @@ export const ProductsPage = () => {
 				</div>
 			)}*/}
 			<ProductsTable
-				data={data ?? []}
+				data={data?.items ?? []}
 				total={data?.length ?? 0}
 				page={filters.page ?? 1}
 				pageSize={filters.pageSize ?? 20}

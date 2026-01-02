@@ -29,7 +29,6 @@ export const handlers = [
   }),
 
   http.get('/api/products', ({ request }) => {
-    console.log('asking for products!!!!!!!!!!!');
     const authHeader = request.headers.get('Authorization');
 
     // No token? Reject the request
@@ -37,14 +36,60 @@ export const handlers = [
     //   return HttpResponse.json({ message: 'Unauthorized' }, { status: 401 });
     // }
 
-    return HttpResponse.json(fakeProducts);
+    const url = new URL(request.url);
+
+    const search = (url.searchParams.get('search') ?? '').trim().toLowerCase();
+    const status = url.searchParams.get('status'); // "active" | "draft" | "archived" | null
+    const category = url.searchParams.get('category');
+    const minPrice = url.searchParams.get('minPrice');
+    const maxPrice = url.searchParams.get('maxPrice');
+
+    const page = Number(url.searchParams.get('page') ?? '1');
+    const pageSize = Number(url.searchParams.get('pageSize') ?? '20');
+
+    let items = [...fakeProducts];
+
+    // SEARCH: match name OR sku (adjust as you like)
+    if (search) {
+      items = items.filter((p) => {
+        const name = (p.name ?? '').toLowerCase();
+        const sku = (p.sku ?? '').toLowerCase();
+        return name.includes(search) || sku.includes(search);
+      });
+    }
+
+    // STATUS
+    if (status && status !== 'all') {
+      items = items.filter((p) => p.status === status);
+    }
+
+    // CATEGORY
+    if (category && category !== 'all') {
+      items = items.filter((p) => p.category === category);
+    }
+
+    // PRICE RANGE
+    if (minPrice != null && minPrice !== '') {
+      const min = Number(minPrice);
+      if (!Number.isNaN(min)) items = items.filter((p) => p.price >= min);
+    }
+
+    if (maxPrice != null && maxPrice !== '') {
+      const max = Number(maxPrice);
+      if (!Number.isNaN(max)) items = items.filter((p) => p.price <= max);
+    }
+
+    // PAGINATION (apply after filtering)
+    const total = items.length;
+    const start = (page - 1) * pageSize;
+    // E.g. for page 1, get items 0-19
+    const paged = items.slice(start, start + pageSize);
+
+    return HttpResponse.json({
+      items: paged,
+      total,
+      page,
+      pageSize,
+    });
   }),
-
-  // http.get('/api/products', ({ request }) => {
-  //   const url = new URL(request.url);
-  //   const page = Number(url.searchParams.get('page') ?? '1');
-  //   const pageSize = Number(url.searchParams.get('pageSize') ?? '20');
-
-  //   return HttpResponse.json({ items: [...], total: 1, page, pageSize });
-  // })
 ];
