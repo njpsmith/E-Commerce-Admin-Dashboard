@@ -36,10 +36,11 @@ export const ProductsPage = () => {
 	// 	status: 'active',
 	// });
 
-	// const handleFiltersChange = (next: ProductFiltersType) => {
-	// 	const parsed = productFiltersSchema.parse(next);
-	// 	setFilters(parsed);
-	// };
+	const handleFiltersChange = (next: ProductFiltersType) => {
+		// const parsed = productFiltersSchema.parse(next);
+		// setFilters(parsed);
+		setFilters(next);
+	};
 
 	return (
 		<div className="space-y-6">
@@ -51,7 +52,7 @@ export const ProductsPage = () => {
 			</div>
 			<ProductFilters
 				filters={filters}
-				// onChange={handleFiltersChange}
+				onChange={handleFiltersChange}
 				isFetching={isFetching}
 			/>
 			{/*{isError && (

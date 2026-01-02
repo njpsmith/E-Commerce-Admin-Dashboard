@@ -5,7 +5,7 @@ import type {
 
 type FilterProps = {
 	filters: ProductFiltersType;
-	// onChange: (next: ProductFiltersType) => void;
+	onChange: (next: ProductFiltersType) => void;
 	isFetching?: boolean;
 	categories?: string[];
 };
@@ -34,7 +34,68 @@ export const ProductFilters = ({
 	// isLoading - only true on the very first fetch
 	// isFetching - true whenever a fetch is happening (including refetches)
 
-	// return <div>filters</div>;
+	const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		onChange({
+			...filters,
+			search: e.target.value,
+			page: 1, // reset pagination when filters change
+		});
+	};
+
+	const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		const v = e.target.value as 'all' | ProductStatus;
+		onChange({
+			...filters,
+			status: v,
+			page: 1,
+		});
+	};
+
+	const handleCategoryChange = (
+		e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>,
+	) => {
+		const v = e.target.value;
+		onChange({
+			...filters,
+			category: v === '' ? 'all' : v,
+			page: 1,
+		});
+	};
+
+	const handleMinPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		onChange({
+			...filters,
+			minPrice: toNumberOrUndefined(e.target.value),
+			page: 1,
+		});
+	};
+
+	const handleMaxPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		onChange({
+			...filters,
+			maxPrice: toNumberOrUndefined(e.target.value),
+			page: 1,
+		});
+	};
+
+	const clearFilters = () => {
+		onChange({
+			...filters,
+			search: '',
+			status: 'all',
+			category: 'all',
+			minPrice: undefined,
+			maxPrice: undefined,
+			page: 1,
+		});
+	};
+
+	const hasActiveFilters =
+		(filters.search ?? '').trim().length > 0 ||
+		(filters.status ?? 'all') !== 'all' ||
+		(filters.category ?? 'all') !== 'all' ||
+		filters.minPrice != null ||
+		filters.maxPrice != null;
 
 	return (
 		<div className="rounded-lg border bg-white p-4">
@@ -50,8 +111,8 @@ export const ProductFilters = ({
 
 				<button
 					type="button"
-					// onClick={clearFilters}
-					// disabled={!hasActiveFilters}
+					onClick={clearFilters}
+					disabled={!hasActiveFilters}
 					className="text-sm underline disabled:opacity-50 disabled:cursor-not-allowed"
 				>
 					Clear
@@ -71,7 +132,7 @@ export const ProductFilters = ({
 						id="product-search"
 						type="text"
 						value={filters.search ?? ''}
-						// onChange={handleSearchChange}
+						onChange={handleSearchChange}
 						placeholder="Search name or SKU…"
 						className="mt-1 w-full rounded border bg-gray-50 px-3 py-2 text-sm outline-none focus:ring"
 					/>
@@ -88,7 +149,7 @@ export const ProductFilters = ({
 					<select
 						id="product-status"
 						value={status}
-						// onChange={handleStatusChange}
+						onChange={handleStatusChange}
 						className="mt-1 w-full rounded border bg-gray-50 px-3 py-2 text-sm outline-none focus:ring"
 					>
 						{STATUS_OPTIONS.map((opt) => (
@@ -112,7 +173,7 @@ export const ProductFilters = ({
 						<select
 							id="product-category"
 							value={category}
-							// onChange={handleCategoryChange}
+							onChange={handleCategoryChange}
 							className="mt-1 w-full rounded border bg-gray-50 px-3 py-2 text-sm outline-none focus:ring"
 						>
 							<option value="all">All</option>
@@ -127,7 +188,7 @@ export const ProductFilters = ({
 							id="product-category"
 							type="text"
 							value={category === 'all' ? '' : String(category)}
-							// onChange={handleCategoryChange}
+							onChange={handleCategoryChange}
 							placeholder="All categories"
 							className="mt-1 w-full rounded border bg-gray-50 px-3 py-2 text-sm outline-none focus:ring"
 						/>
@@ -148,7 +209,7 @@ export const ProductFilters = ({
 						inputMode="decimal"
 						min={0}
 						value={filters.minPrice ?? ''}
-						// onChange={handleMinPriceChange}
+						onChange={handleMinPriceChange}
 						placeholder="£0"
 						className="mt-1 w-full rounded border bg-gray-50 px-3 py-2 text-sm outline-none focus:ring"
 					/>
@@ -168,7 +229,7 @@ export const ProductFilters = ({
 						inputMode="decimal"
 						min={0}
 						value={filters.maxPrice ?? ''}
-						// onChange={handleMaxPriceChange}
+						onChange={handleMaxPriceChange}
 						placeholder="£999"
 						className="mt-1 w-full rounded border bg-gray-50 px-3 py-2 text-sm outline-none focus:ring"
 					/>
