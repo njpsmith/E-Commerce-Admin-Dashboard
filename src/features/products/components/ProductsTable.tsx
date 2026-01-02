@@ -6,7 +6,7 @@ type ProductTableProps = {
 	page: number;
 	pageSize: number;
 	isLoading?: boolean;
-	// onPageChange: (page: number) => void;
+	onPageChange: (page: number) => void;
 };
 
 // Keep pagination between allowed range - This function guarantees a number stays within a valid range
@@ -103,7 +103,7 @@ export const ProductsTable = ({
 				<div className="flex items-center gap-2">
 					<button
 						type="button"
-						// onClick={() => canPrev && onPageChange(safePage - 1)}
+						onClick={() => canPrev && onPageChange(safePage - 1)}
 						disabled={!canPrev || isLoading}
 						className="rounded border px-3 py-1.5 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
 					>
@@ -115,7 +115,7 @@ export const ProductsTable = ({
 					</span>
 					<button
 						type="button"
-						// onClick={() => canNext && onPageChange(safePage + 1)}
+						onClick={() => canNext && onPageChange(safePage + 1)}
 						disabled={!canNext || isLoading}
 						className="rounded border px-3 py-1.5 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
 					>

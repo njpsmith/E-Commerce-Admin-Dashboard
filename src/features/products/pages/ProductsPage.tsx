@@ -9,14 +9,11 @@ const defaultFilters: ProductFiltersType = {
 	status: 'all',
 	category: 'all',
 	page: 1,
-	pageSize: 40,
+	pageSize: 10,
 };
 
 export const ProductsPage = () => {
 	const [filters, setFilters] = useState<ProductFiltersType>(defaultFilters);
-
-	// const { data, isLoading, isError, refetch, isFetching } =
-	// 	useProductsList(filters);
 
 	/*
 	When ProductsPage mounts:
@@ -28,7 +25,8 @@ export const ProductsPage = () => {
 	- React Query stores result in cache
 	- Component re-renders with data
 	*/
-	const { data, isLoading, isError, error, isFetching } = useProductsList();
+	const { data, isLoading, isError, error, isFetching } =
+		useProductsList(filters);
 	// const { data, isLoading, isError, error } = useProductsList({
 	// 	page: 1,
 	// 	pageSize: 20,
@@ -69,7 +67,7 @@ export const ProductsPage = () => {
 				page={filters.page ?? 1}
 				pageSize={filters.pageSize ?? 20}
 				isLoading={isLoading}
-				// onPageChange={(page) => handleFiltersChange({ ...filters, page })}
+				onPageChange={(page) => handleFiltersChange({ ...filters, page })}
 			/>
 		</div>
 	);

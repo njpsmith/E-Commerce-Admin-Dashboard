@@ -10,7 +10,7 @@ const defaultFilters: ProductFiltersType = {
 	status: 'all',
 	category: 'all',
 	page: 1,
-	pageSize: 20,
+	pageSize: 10,
 };
 
 export const ProductsPage = () => {

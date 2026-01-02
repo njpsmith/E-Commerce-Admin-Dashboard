@@ -245,7 +245,7 @@ export const ProductFilters = ({
 					</label>
 					<select
 						id="page-size"
-						value={20}
+						value={filters.pageSize ?? 10}
 						onChange={(e) =>
 							onChange({
 								...filters,
