@@ -25,7 +25,7 @@ function buildProductsQuery(filters: ProductFilters): string {
 
 	// sensible defaults
 	params.set('page', String(filters.page ?? 1));
-	params.set('pageSize', String(filters.pageSize ?? 20));
+	params.set('pageSize', String(filters.pageSize ?? 40));
 
 	const qs = params.toString();
 	return qs ? `?${qs}` : '';
