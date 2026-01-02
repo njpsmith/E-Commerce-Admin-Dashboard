@@ -29,6 +29,7 @@ export const handlers = [
   }),
 
   http.get('/api/products', ({ request }) => {
+    console.log('asking for products!!!!!!!!!!!');
     const authHeader = request.headers.get('Authorization');
 
     // No token? Reject the request

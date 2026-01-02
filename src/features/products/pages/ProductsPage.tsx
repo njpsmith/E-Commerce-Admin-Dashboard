@@ -1,13 +1,34 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ProductsTable } from '../components/ProductsTable';
 import { ProductFilters } from '../components/ProductFilters';
+import type { ProductFilters as ProductFiltersType } from '../types';
+import { useProductsList } from '../hooks/useProductsList';
+
+const defaultFilters: ProductFiltersType = {
+	search: '',
+	status: 'all',
+	category: 'all',
+	page: 1,
+	pageSize: 20,
+};
 
 export const ProductsPage = () => {
 	const [filters, setFilters] = useState<ProductFiltersType>(defaultFilters);
+
 	// const { data, isLoading, isError, refetch, isFetching } =
 	// 	useProductsList(filters);
 
-	const data = {};
+	/*
+	When ProductsPage mounts:
+	- useProductsList() runs
+	- React Query sees query key ["products"]
+	- No cached data → calls fetchProducts
+	- fetch("/api/products")
+  - MSW handler responds with fixture data
+	- React Query stores result in cache
+	- Component re-renders with data
+	*/
+	const { data, isLoading, isError, error } = useProductsList();
 
 	// const handleFiltersChange = (next: ProductFiltersType) => {
 	// 	const parsed = productFiltersSchema.parse(next);
@@ -18,26 +39,26 @@ export const ProductsPage = () => {
 		<div className="space-y-6">
 			<div className="flex items-center justify-between">
 				<h1 className="text-2xl font-semibold">Products</h1>
-				<button className="px-4 py-2 rounded bg-blue-600 text-white text-sm">
+				{/*<button className="px-4 py-2 rounded bg-blue-600 text-white text-sm">
 					Add product
-				</button>
+				</button>*/}
 			</div>
 			<ProductFilters
 				filters={filters}
 				// onChange={handleFiltersChange}
-				isFetching={isFetching}
+				// isFetching={isFetching}
 			/>
-			{isError && (
+			{/*{isError && (
 				<div className="p-3 rounded bg-red-100 text-red-800 text-sm flex justify-between">
 					<span>Failed to load products.</span>
-					{/*<button onClick={() => refetch()} className="underline">
+					<button onClick={() => refetch()} className="underline">
 						Retry
-					</button>*/}
+					</button>
 				</div>
-			)}
+			)}*/}
 			<ProductsTable
-				data={data?.items ?? []}
-				total={data?.total ?? 0}
+				data={data ?? []}
+				total={data?.length ?? 0}
 				page={filters.page ?? 1}
 				pageSize={filters.pageSize ?? 20}
 				isLoading={isLoading}
