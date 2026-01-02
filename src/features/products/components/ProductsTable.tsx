@@ -72,7 +72,11 @@ export const ProductsTable = ({
 	page,
 	pageSize,
 	isLoading,
+	isFetching,
 }: ProductTableProps) => {
+	const dataIsEmpty = data.length === 0;
+	// console.log('dataIsEmpty', dataIsEmpty);
+
 	const totalPages = Math.max(1, Math.ceil(total / pageSize));
 	const safePage = clamp(page, 1, totalPages);
 
@@ -83,7 +87,10 @@ export const ProductsTable = ({
 	const start = total === 0 ? 0 : (safePage - 1) * pageSize + 1;
 	const end = Math.min(total, safePage * pageSize);
 
-	const showEmpty = !isLoading && data.length === 0;
+	const showSkeleton = Boolean(isLoading && dataIsEmpty);
+
+	// const showEmpty = !isLoading && data.length === 0;
+	const showEmpty = Boolean(!isLoading && !isFetching && dataIsEmpty);
 
 	return (
 		<div className="rounded-lg border bg-white">
@@ -139,7 +146,7 @@ export const ProductsTable = ({
 					</thead>
 
 					<tbody className="divide-y">
-						{isLoading ? (
+						{showSkeleton ? (
 							<>
 								{Array.from({ length: Math.min(8, pageSize) }).map((_, i) => (
 									<SkeletonRow key={i} />

@@ -65,7 +65,11 @@ export const handlers = [
 
     // CATEGORY
     if (category && category !== 'all') {
-      items = items.filter((p) => p.category === category);
+      const categorySearchText = category.toLowerCase();
+
+      items = items.filter((p) =>
+        p.category.toLowerCase().includes(categorySearchText),
+      );
     }
 
     // PRICE RANGE

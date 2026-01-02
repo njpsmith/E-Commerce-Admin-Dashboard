@@ -15,6 +15,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+  /* Prevents layout shift when filtering */
+  scrollbar-gutter: stable;
+}
+
 a {
   font-weight: 500;
   color: #646cff;

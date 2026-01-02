@@ -67,6 +67,7 @@ export const ProductsPage = () => {
 				page={filters.page ?? 1}
 				pageSize={filters.pageSize ?? 20}
 				isLoading={isLoading}
+				isFetching={isFetching}
 				onPageChange={(page) => handleFiltersChange({ ...filters, page })}
 			/>
 		</div>

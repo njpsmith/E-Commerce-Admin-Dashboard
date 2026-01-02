@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+
 import type {
 	ProductFilters as ProductFiltersType,
 	ProductStatus,
@@ -26,7 +28,6 @@ export const ProductFilters = ({
 	isFetching = false,
 	categories,
 }: FilterProps) => {
-	console.log('FIOTER', filters);
 	const status = (filters.status ?? 'all') as 'all' | ProductStatus;
 	const category = filters.category ?? 'all';
 
